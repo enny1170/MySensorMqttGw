@@ -82,13 +82,17 @@
 //#define MY_MQTT_USER "username"
 //#define MY_MQTT_PASSWORD "password"
 
-// Set WIFI SSID and password
+// Set WIFI SSID and password for strube
 #define MY_ESP8266_SSID "101"
 #define MY_ESP8266_PASSWORD ""
 
+// Set WIFI SSID and password for home
+// #define MY_ESP8266_SSID "WLAN2"
+// #define MY_ESP8266_PASSWORD "altes-rumpel-2"
+
 // Set the hostname for the WiFi Client. This is the hostname
 // it will pass to the DHCP server if not static.
-// #define MY_ESP8266_HOSTNAME "mqtt-sensor-gateway"
+#define MY_ESP8266_HOSTNAME "mqtt-sensor-gateway"
 
 // Enable MY_IP_ADDRESS here if you want a static ip address (no DHCP)
 // #define MY_IP_ADDRESS 195,147,158,4
@@ -98,8 +102,11 @@
 // #define MY_IP_SUBNET_ADDRESS 255,255,255,0
 
 
-// MQTT broker ip address.
-#define MY_CONTROLLER_IP_ADDRESS 195, 147, 158, 250
+// MQTT broker ip address. public ubuntu vserver
+#define MY_CONTROLLER_IP_ADDRESS 217, 160, 180, 15
+
+// MQTT broker ip address. home
+// #define MY_CONTROLLER_IP_ADDRESS 195, 147, 158, 250
 
 // The MQTT broker port to to open
 #define MY_PORT 1883
@@ -122,11 +129,16 @@
 #define MY_DEFAULT_RX_LED_PIN  9  // Receive led pin
 #define MY_DEFAULT_TX_LED_PIN  10  // the PCB, on board LED
 
+#define MY_TEST getIpAddress()
 
 #include <ESP8266WiFi.h>
 #include <MySensors.h>
 #include <ESP8266mDNS.h>
 #include <ArduinoOTA.h>
+
+IPAddress getIpAddress(){
+    return 192,168,2,4;
+}
 
 void setup()
 {
@@ -156,7 +168,8 @@ void setup()
 	ArduinoOTA.begin();
 	Serial.println("Ready");
 	Serial.print("IP address: ");
-	Serial.println(WiFi.localIP());
+    Serial.println(WiFi.localIP());
+    Serial.println(MY_TEST);
 
 }
 
